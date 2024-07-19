@@ -16,4 +16,9 @@ public class TestAuthController {
     public String index2() {
         return "Hola2";
     }
+
+    @GetMapping("/hola3")
+    public String index3() {
+        return "Hola3";
+    }
 }
