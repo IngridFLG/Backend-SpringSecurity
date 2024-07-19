@@ -65,9 +65,10 @@ public class SpringbootSpringsecurityApplication {
                     .build();
 
             /* CREATE USERS */
+            String password = "$2a$10$cMY29RPYoIHMJSuwRfoD3eQxU1J5Rww4VnNOUOAEPqCBshkNfrEf6";
             UserEntity userSantiago = UserEntity.builder()
                     .username("santiago")
-                    .password("1234")
+                    .password(password)
                     .isEnabled(true)
                     .accountNoExpired(true)
                     .accountNoLocked(true)
@@ -77,7 +78,7 @@ public class SpringbootSpringsecurityApplication {
 
             UserEntity userDaniel = UserEntity.builder()
                     .username("daniel")
-                    .password("1234")
+                    .password(password)
                     .isEnabled(true)
                     .accountNoExpired(true)
                     .accountNoLocked(true)
@@ -87,7 +88,7 @@ public class SpringbootSpringsecurityApplication {
 
             UserEntity userAndrea = UserEntity.builder()
                     .username("andrea")
-                    .password("1234")
+                    .password(password)
                     .isEnabled(true)
                     .accountNoExpired(true)
                     .accountNoLocked(true)
@@ -97,7 +98,7 @@ public class SpringbootSpringsecurityApplication {
 
             UserEntity userAnyi = UserEntity.builder()
                     .username("anyi")
-                    .password("1234")
+                    .password(password)
                     .isEnabled(true)
                     .accountNoExpired(true)
                     .accountNoLocked(true)

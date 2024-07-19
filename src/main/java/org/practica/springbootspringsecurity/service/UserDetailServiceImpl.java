@@ -13,34 +13,34 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Service
 @RequiredArgsConstructor
 public class UserDetailServiceImpl implements UserDetailsService {
 
-    private UserRepository userRepository;
+        private final UserRepository userRepository;
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        @Override
+        public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+                UserEntity userEntity = userRepository.findUserEntityByUsername(username).orElseThrow(
+                                () -> new UsernameNotFoundException("El usuario " + username + " no existe"));
 
-        UserEntity userEntity = userRepository.findUserEntityByUsername(username).orElseThrow(() -> new UsernameNotFoundException("El usuario " + username + " no existe"));
+                List<SimpleGrantedAuthority> authorityList = new ArrayList<>();
 
-        List<SimpleGrantedAuthority> authorityList = new ArrayList<>();
+                userEntity.getRoles()
+                                .forEach(role -> authorityList.add(
+                                                new SimpleGrantedAuthority("ROLE_".concat(role.getRoleEnum().name()))));
 
-        userEntity.getRoles()
-                .forEach(role -> authorityList.add(new SimpleGrantedAuthority("ROLE_".concat(role.getRoleEnum().name()))));
+                userEntity.getRoles().stream()
+                                .flatMap(role -> role.getPermissionsList().stream())
+                                .forEach(permission -> authorityList
+                                                .add(new SimpleGrantedAuthority(permission.getName())));
 
-        userEntity.getRoles().stream()
-                .flatMap(role -> role.getPermissionsList().stream())
-                .forEach(permission -> authorityList.add(new SimpleGrantedAuthority(permission.getName())));
-
-
-        return new User(userEntity.getUsername(),
-                userEntity.getPassword(),
-                userEntity.isEnabled(),
-                userEntity.isAccountNoExpired(),
-                userEntity.isCredentialNoExpired(),
-                userEntity.isAccountNoLocked(),
-                authorityList);
-    }
+                return new User(userEntity.getUsername(),
+                                userEntity.getPassword(),
+                                userEntity.isEnabled(),
+                                userEntity.isAccountNoExpired(),
+                                userEntity.isCredentialNoExpired(),
+                                userEntity.isAccountNoLocked(),
+                                authorityList);
+        }
 }
