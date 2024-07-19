@@ -4,11 +4,11 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
-@PreAuthorize("denyAll()")
+//@PreAuthorize("denyAll()")
 public class TestAuthController {
 
     @GetMapping("/get")
-    @PreAuthorize("hasAuthority('READ')")
+//    @PreAuthorize("hasAuthority('READ')")
     public String helloGet(){
         return "Hello World - GET";
     }

@@ -25,36 +25,36 @@ public class SecurityConfig {
 
 
 
-//    @Bean
-//    public SecurityFilterChain securityFilterChain( HttpSecurity httpSecurity) throws Exception {
-//
-//        return httpSecurity
-//                .csrf(AbstractHttpConfigurer::disable)
-//                .httpBasic(Customizer.withDefaults())
-//                .sessionManagement(session-> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                .authorizeHttpRequests(http -> {
-//                    // Configurar los endpoints publicos
-//                    http.requestMatchers(HttpMethod.GET, "/auth/hola").permitAll();
-//
-//                    // Configurar los endpoints privados
-//                    http.requestMatchers(HttpMethod.GET, "/auth/hola2").hasAuthority("CREATE");
-//
-//                    // Configurar el resto de endpoint - NO ESPECIFICADOS
-//                    http.anyRequest().denyAll();
-//                    //http.anyRequest().authenticated();
-//
-//                })
-//                .build();
-//    }
-
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+    public SecurityFilterChain securityFilterChain( HttpSecurity httpSecurity) throws Exception {
+
         return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(session-> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(http -> {
+                    // Configurar los endpoints publicos
+                    http.requestMatchers(HttpMethod.GET, "/auth/get").permitAll();
+
+                    // Configurar los endpoints privados
+//                    http.requestMatchers(HttpMethod.GET, "/auth/hola2").hasAuthority("CREATE");
+
+                    // Configurar el resto de endpoint - NO ESPECIFICADOS
+                    http.anyRequest().denyAll();
+                    //http.anyRequest().authenticated();
+
+                })
                 .build();
     }
+
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+//        return httpSecurity
+//                .csrf(AbstractHttpConfigurer::disable)
+//                .httpBasic(Customizer.withDefaults())
+//                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                .build();
+//    }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {

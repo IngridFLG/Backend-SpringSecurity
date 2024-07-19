@@ -47,20 +47,20 @@ public class SpringbootSpringsecurityApplication {
             /* Create ROLES */
 
             RoleEntity roleAdmin = RoleEntity.builder()
-                    .roleEnum(RoleEnum.ROLE_ADMIN).permissionsList(Set.of(createPermission, readPermission, updatePermission, deletePermission)).build();
+                    .roleEnum(RoleEnum.ADMIN).permissionsList(Set.of(createPermission, readPermission, updatePermission, deletePermission)).build();
 
             RoleEntity roleUser = RoleEntity.builder()
-                    .roleEnum(RoleEnum.ROLE_USER)
+                    .roleEnum(RoleEnum.USER)
                     .permissionsList(Set.of(createPermission, readPermission))
                     .build();
 
             RoleEntity roleInvited = RoleEntity.builder()
-                    .roleEnum(RoleEnum.ROLE_INVITED)
+                    .roleEnum(RoleEnum.INVITED)
                     .permissionsList(Set.of(readPermission))
                     .build();
 
             RoleEntity roleDeveloper = RoleEntity.builder()
-                    .roleEnum(RoleEnum.ROLE_DEVELOPER)
+                    .roleEnum(RoleEnum.DEVELOPER)
                     .permissionsList(Set.of(createPermission, readPermission, updatePermission, deletePermission, refactorPermission))
                     .build();
 
@@ -69,9 +69,9 @@ public class SpringbootSpringsecurityApplication {
                     .username("santiago")
                     .password("1234")
                     .isEnabled(true)
-                    .accountNonExpired(true)
-                    .accountNonLocked(true)
-                    .credentialsNonExpired(true)
+                    .accountNoExpired(true)
+                    .accountNoLocked(true)
+                    .credentialNoExpired(true)
                     .roles(Set.of(roleAdmin))
                     .build();
 
@@ -79,9 +79,9 @@ public class SpringbootSpringsecurityApplication {
                     .username("daniel")
                     .password("1234")
                     .isEnabled(true)
-                    .accountNonExpired(true)
-                    .accountNonLocked(true)
-                    .credentialsNonExpired(true)
+                    .accountNoExpired(true)
+                    .accountNoLocked(true)
+                    .credentialNoExpired(true)
                     .roles(Set.of(roleUser))
                     .build();
 
@@ -89,9 +89,9 @@ public class SpringbootSpringsecurityApplication {
                     .username("andrea")
                     .password("1234")
                     .isEnabled(true)
-                    .accountNonExpired(true)
-                    .accountNonLocked(true)
-                    .credentialsNonExpired(true)
+                    .accountNoExpired(true)
+                    .accountNoLocked(true)
+                    .credentialNoExpired(true)
                     .roles(Set.of(roleInvited))
                     .build();
 
@@ -99,9 +99,9 @@ public class SpringbootSpringsecurityApplication {
                     .username("anyi")
                     .password("1234")
                     .isEnabled(true)
-                    .accountNonExpired(true)
-                    .accountNonLocked(true)
-                    .credentialsNonExpired(true)
+                    .accountNoExpired(true)
+                    .accountNoLocked(true)
+                    .credentialNoExpired(true)
                     .roles(Set.of(roleDeveloper))
                     .build();
 
