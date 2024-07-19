@@ -1,5 +1,6 @@
 package org.practica.springbootspringsecurity.config;
 
+import org.practica.springbootspringsecurity.service.UserDetailServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -13,16 +14,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -31,25 +25,34 @@ public class SecurityConfig {
 
 
 
-    @Bean
-    public SecurityFilterChain securityFilterChain( HttpSecurity httpSecurity) throws Exception {
+//    @Bean
+//    public SecurityFilterChain securityFilterChain( HttpSecurity httpSecurity) throws Exception {
+//
+//        return httpSecurity
+//                .csrf(AbstractHttpConfigurer::disable)
+//                .httpBasic(Customizer.withDefaults())
+//                .sessionManagement(session-> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                .authorizeHttpRequests(http -> {
+//                    // Configurar los endpoints publicos
+//                    http.requestMatchers(HttpMethod.GET, "/auth/hola").permitAll();
+//
+//                    // Configurar los endpoints privados
+//                    http.requestMatchers(HttpMethod.GET, "/auth/hola2").hasAuthority("CREATE");
+//
+//                    // Configurar el resto de endpoint - NO ESPECIFICADOS
+//                    http.anyRequest().denyAll();
+//                    //http.anyRequest().authenticated();
+//
+//                })
+//                .build();
+//    }
 
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults())
-                .sessionManagement(session-> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(http -> {
-                    // Configurar los endpoints publicos
-                    http.requestMatchers(HttpMethod.GET, "/auth/hola").permitAll();
-
-                    // Configurar los endpoints privados
-                    http.requestMatchers(HttpMethod.GET, "/auth/hola2").hasAuthority("CREATE");
-
-                    // Configurar el resto de endpoint - NO ESPECIFICADOS
-                    http.anyRequest().denyAll();
-                    //http.anyRequest().authenticated();
-
-                })
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .build();
     }
 
@@ -59,10 +62,10 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider() {
+    public AuthenticationProvider authenticationProvider(UserDetailServiceImpl userDetailService) {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordEncoder());
-        provider.setUserDetailsService(null);
+        provider.setUserDetailsService(userDetailService);
         return provider;
     }
 

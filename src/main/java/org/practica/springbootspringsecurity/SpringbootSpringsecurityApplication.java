@@ -107,7 +107,6 @@ public class SpringbootSpringsecurityApplication {
 
             userRepository.saveAll(List.of(userSantiago, userDaniel, userAndrea, userAnyi));
         };
-
-
     }
+
 }
